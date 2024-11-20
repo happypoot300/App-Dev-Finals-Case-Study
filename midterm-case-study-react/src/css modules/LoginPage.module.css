@@ -1,0 +1,53 @@
+/* login */
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.loginForm {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-width: 90%;
+  text-align: center; /* Ensure all elements inside are centered */
+}
+
+.header {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  width: 78%; /* Ensure full width for centering */
+}
+
+/* error message */
+.textDanger {
+  color: red;
+  text-align: center;
+}
+
+.label {
+  font-weight: bold;
+  display: block;
+  text-align: left; /* Keep labels aligned left */
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.button {
+  display: block;
+  width: 100%; /* Make button full width */
+  margin-top: 15px;
+  padding: 10px;
+  text-align: center; /* Center text inside button */
+}
