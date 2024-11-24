@@ -28,7 +28,11 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       setEmail("");
       setPassword("");
-      navigate("/ViewProductPage", { replace: true });
+      //need ng checker to see if admin ba yung acc or user lang
+      navigate("/ViewProductPage", {
+        state: { isUserAdmin: false },
+        replace: true,
+      });
     } catch (error) {
       console.log(error);
       setError("Invalid username or password");

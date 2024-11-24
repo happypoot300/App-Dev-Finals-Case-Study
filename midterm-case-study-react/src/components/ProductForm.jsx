@@ -62,7 +62,6 @@ export default function ProductForm({
           required
         />
       </Form.Group>
-
       <Form.Group controlId="formPrice">
         <Form.Label>Price</Form.Label>
         <Form.Control
@@ -76,7 +75,6 @@ export default function ProductForm({
           required
         />
       </Form.Group>
-
       <Form.Group controlId="formDescription">
         <Form.Label>Description</Form.Label>
         <Form.Control
@@ -90,7 +88,6 @@ export default function ProductForm({
           required
         />
       </Form.Group>
-
       <Form.Group controlId="formCategory">
         <Form.Label>Category</Form.Label>
         <Form.Control
@@ -100,7 +97,7 @@ export default function ProductForm({
           onChange={(e) => {
             onChangeProduct("category", e.target.value);
           }}
-          readOnly={isViewOnly}
+          disabled={isViewOnly}
           required
         >
           <option value="">Select a Category</option>
@@ -116,7 +113,6 @@ export default function ProductForm({
           <option value="Toys & Games">Toys & Games</option>
         </Form.Control>
       </Form.Group>
-
       <Form.Group controlId="formBarcode">
         <Form.Label>Barcode</Form.Label>
         <Form.Control
@@ -126,11 +122,9 @@ export default function ProductForm({
           onChange={(e) => {
             onChangeProduct("bar_code", e.target.value);
           }}
-          readOnly={isViewOnly}
           required
         />
       </Form.Group>
-
       <Form.Group controlId="formQuantity">
         <Form.Label>Available Quantity</Form.Label>
         <Form.Control
@@ -144,7 +138,6 @@ export default function ProductForm({
           required
         />
       </Form.Group>
-
       {isViewOnly ? (
         <Container>
           <Button className={Style.AddToCartButton}>Add to Cart</Button>
@@ -152,9 +145,11 @@ export default function ProductForm({
           <Button className={Style.BuyNowButton}>Buy Now</Button>
         </Container>
       ) : (
-        <Button className={Style.SubmitButton} type="submit">
-          Submit
-        </Button>
+        <div>
+          <Button className={Style.SubmitButton} type="submit">
+            Submit
+          </Button>
+        </div>
       )}
     </Form>
   );

@@ -19,6 +19,10 @@
   cursor: pointer;
 }
 
+.viewButton {
+  color: #eb9431;
+}
+
 .editButton {
   color: #2cb37e;
 }
@@ -30,6 +34,13 @@
 .buttonContainer {
   display: flex;
   justify-content: space-around;
+  padding: 0;
+  margin: 0;
+}
+
+.buttonContainerUser {
+  display: flex;
+  justify-content: center;
   padding: 0;
   margin: 0;
 }
