@@ -8,6 +8,7 @@ import EditProductPage from "./pages/AdminPages/EditProductPage";
 //UserPages
 import AddToCartPage from "./pages/UserPages/AddToCartPage";
 import CheckoutPage from "./pages/UserPages/CheckoutPage";
+import ProductDetailsPage from "./pages/UserPages/ProductDetailsPage";
 import ViewCartPage from "./pages/UserPages/ViewCartPage";
 //GlobalPages
 import ViewProductPage from "./pages/ViewProductPage";
@@ -25,6 +26,7 @@ export default function App() {
         {/*UserPages*/}
         <Route path="/AddToCartPage" element={<AddToCartPage />} />
         <Route path="/CheckoutPage" element={<CheckoutPage />} />
+        <Route path="/ProductDetailsPage/:id" element={<ProductDetailsPage />} />
         <Route path="/ViewCartPage" element={<ViewCartPage />} />
 
         {/*GlobalPages*/}
