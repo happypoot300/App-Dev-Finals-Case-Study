@@ -2,9 +2,12 @@ import React, { useState } from "react";
 // CSS style
 import Style from "../css modules/LoginPage.module.css";
 // React router dom
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // Axios
 import axios from "../api/axios";
+// Bootstrap
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -23,20 +26,20 @@ export default function LoginPage() {
     try {
       const response = await axios.post("/login", { email, password });
       const token = response.data.token;
-      const userRole = response.data.role; // Assuming the response contains the user's role
+
+      console.log("userROLE: ", response.data.role);
+      console.log("userROLE: ", response.data.role === "admin");
 
       // Store the token in local storage
       localStorage.setItem("token", token);
 
       setEmail("");
       setPassword("");
-
-      // Navigate based on the user's role (Admin or User)
-      if (userRole === "admin") {
-        navigate("/AddProductPage", { replace: true }); // Redirect to Admin Page
-      } else {
-        navigate("/ViewProductPage", { replace: true }); // Redirect to User Product Page
-      }
+      //need ng checker to see if admin ba yung acc or user lang
+      navigate("/ViewProductPage", {
+        state: { isUserAdmin: response.data.role === "admin" },
+        replace: true,
+      });
     } catch (error) {
       console.log(error);
       setError("Invalid username or password");
@@ -45,9 +48,9 @@ export default function LoginPage() {
     setLoading(false); // Stop loading when done
   };
 
-  const handleRegisterRedirect = () => {
-    navigate("/register"); // Redirect to the Register Page
-  };
+  function handleNavigateRegister() {
+    navigate("/RegisterPage", { replace: true });
+  }
 
   return (
     <div className={Style.loginContainer}>
@@ -87,24 +90,24 @@ export default function LoginPage() {
               required
             />
           </div>
-          <button
+          <Button
             type="submit"
-            className="btn btn-primary w-100"
+            className="btn btn-primary w-50 mt-2"
             disabled={loading} // Disable button when loading
           >
             {loading ? "Logging In..." : "Log In"}
-          </button>
+          </Button>
         </form>
-        <div className="mt-3 text-center">
+        <Container fluid className="d-flex mt-3 justify-content-center">
           <p>Don't have an account?</p>
-          <button
-            type="button"
-            className="btn btn-secondary w-100"
-            onClick={handleRegisterRedirect}
+          <Button
+            variant="link"
+            className="p-0 m-0 align-text-top"
+            onClick={handleNavigateRegister}
           >
-            Register
-          </button>
-        </div>
+            <p>Register</p>
+          </Button>
+        </Container>
       </div>
     </div>
   );

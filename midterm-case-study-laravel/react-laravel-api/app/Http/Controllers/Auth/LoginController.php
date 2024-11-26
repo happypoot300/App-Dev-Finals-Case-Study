@@ -50,7 +50,13 @@ class LoginController extends Controller
     }
 
     $user = User::find(Auth::id());
-    $token = $user->createToken('auth_token')->plainTextToken;
-    return response()->json(['token' => $token]);
+
+    // Check if the user has a role of 'user' or 'admin'
+    if ($user->role === 'user' || $user->role === 'admin') {
+      $token = $user->createToken('auth_token')->plainTextToken;
+      return response()->json(['token' => $token, 'role' => $user->role]);
+    } else {
+      return response()->json(['message' => 'User does not have a valid role'], 401);
+    }
   }
 }

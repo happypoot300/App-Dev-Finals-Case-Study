@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 //bootstrap
 import { Container } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
+import placeholderImage from "../../images/placeholder_Image.jpg";
 //css style
 import Style from "../../css modules/ProductDetailsPage.module.css";
 //fontawesome
@@ -44,7 +46,7 @@ export default function ProductDetailsPage() {
   }, []);
 
   function handleAddToCart(parameterForm) {
-    fetch("http://127.0.0.1:8000/api/products", {
+    /*     fetch("http://127.0.0.1:8000/api/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +68,33 @@ export default function ProductDetailsPage() {
       .catch((error) => {
         setError(error.message);
         console.log(error);
-      });
+      }); */
+  }
+
+  function handleCheckout(parameterForm) {
+    /*     fetch("http://127.0.0.1:8000/api/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(parameterForm),
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigateToHome();
+        } else {
+          throw new Error(
+            response.statusText +
+              " " +
+              response.status +
+              " The server encountered an unexpected condition that prevented it from fulfilling the request"
+          );
+        }
+      })
+      .catch((error) => {
+        setError(error.message);
+        console.log(error);
+      }); */
   }
 
   return (
@@ -86,8 +114,10 @@ export default function ProductDetailsPage() {
         )}
 
         <ProductForm
+          id={id}
           formData={formData}
           handleAddToCart={handleAddToCart}
+          handleCheckout={handleCheckout}
           isViewOnly={true}
         />
       </div>
