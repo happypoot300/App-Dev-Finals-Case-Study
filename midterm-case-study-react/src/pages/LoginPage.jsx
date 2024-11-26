@@ -1,4 +1,3 @@
-// React
 import React, { useState } from "react";
 // CSS style
 import Style from "../css modules/LoginPage.module.css";
@@ -33,6 +32,7 @@ export default function LoginPage() {
 
       // Store the token in local storage
       localStorage.setItem("token", token);
+
       setEmail("");
       setPassword("");
       //need ng checker to see if admin ba yung acc or user lang

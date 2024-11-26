@@ -14,7 +14,6 @@ import ViewCartPage from "./pages/UserPages/ViewCartPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ViewProductPage from "./pages/ViewProductPage";
-//components
 
 export default function App() {
   return (
