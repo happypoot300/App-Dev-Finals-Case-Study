@@ -11,8 +11,9 @@ import CheckoutPage from "./pages/UserPages/CheckoutPage";
 import ProductDetailsPage from "./pages/UserPages/ProductDetailsPage";
 import ViewCartPage from "./pages/UserPages/ViewCartPage";
 //GlobalPages
-import ViewProductPage from "./pages/ViewProductPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import ViewProductPage from "./pages/ViewProductPage";
 //components
 
 export default function App() {
@@ -26,12 +27,16 @@ export default function App() {
         {/*UserPages*/}
         <Route path="/AddToCartPage/:id" element={<AddToCartPage />} />
         <Route path="/CheckoutPage" element={<CheckoutPage />} />
-        <Route path="/ProductDetailsPage/:id" element={<ProductDetailsPage />} />
+        <Route
+          path="/ProductDetailsPage/:id"
+          element={<ProductDetailsPage />}
+        />
         <Route path="/ViewCartPage" element={<ViewCartPage />} />
 
         {/*GlobalPages*/}
-        <Route path="/ViewProductPage" element={<ViewProductPage />} />
         <Route path="/" element={<LoginPage />} />
+        <Route path="/RegisterPage" element={<RegisterPage />} />
+        <Route path="/ViewProductPage" element={<ViewProductPage />} />
       </Routes>
     </div>
   );

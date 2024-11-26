@@ -11,6 +11,8 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('products', App\Http\Controllers\ProductController::class);
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'apiLogin']);
+Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'apiRegister']);
+
 Route::post('/logout', function () {
     Auth::logout();
     return response()->json(['message' => 'Logged out successfully']);
