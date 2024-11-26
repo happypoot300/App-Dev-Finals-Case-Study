@@ -22,7 +22,6 @@ export default function AddProductPage() {
   useEffect(() => {
     setIsUserAdmin(location.state?.isUserAdmin);
   }, [location]);
-  console.log(" isUserAdmin from add:", isUserAdmin);
 
   function navigateToHome() {
     navigate("/ViewProductPage", {

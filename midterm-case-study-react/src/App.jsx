@@ -24,7 +24,7 @@ export default function App() {
         <Route path="/EditProductPage/:id" element={<EditProductPage />} />
 
         {/*UserPages*/}
-        <Route path="/AddToCartPage" element={<AddToCartPage />} />
+        <Route path="/AddToCartPage/:id" element={<AddToCartPage />} />
         <Route path="/CheckoutPage" element={<CheckoutPage />} />
         <Route path="/ProductDetailsPage/:id" element={<ProductDetailsPage />} />
         <Route path="/ViewCartPage" element={<ViewCartPage />} />
