@@ -3,9 +3,12 @@ import React, { useState } from "react";
 // CSS style
 import Style from "../css modules/LoginPage.module.css";
 // React router dom
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // Axios
 import axios from "../api/axios";
+// Bootstrap
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -24,13 +27,17 @@ export default function LoginPage() {
     try {
       const response = await axios.post("/login", { email, password });
       const token = response.data.token;
+
+      console.log("userROLE: ", response.data.role);
+      console.log("userROLE: ", response.data.role === "admin");
+
       // Store the token in local storage
       localStorage.setItem("token", token);
       setEmail("");
       setPassword("");
       //need ng checker to see if admin ba yung acc or user lang
       navigate("/ViewProductPage", {
-        state: { isUserAdmin: true },
+        state: { isUserAdmin: response.data.role === "admin" },
         replace: true,
       });
     } catch (error) {
@@ -40,6 +47,10 @@ export default function LoginPage() {
 
     setLoading(false); // Stop loading when done
   };
+
+  function handleNavigateRegister() {
+    navigate("/RegisterPage", { replace: true });
+  }
 
   return (
     <div className={Style.loginContainer}>
@@ -79,14 +90,24 @@ export default function LoginPage() {
               required
             />
           </div>
-          <button
+          <Button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary w-50 mt-2"
             disabled={loading} // Disable button when loading
           >
             {loading ? "Logging In..." : "Log In"}
-          </button>
+          </Button>
         </form>
+        <Container fluid className="d-flex mt-3 justify-content-center">
+          <p>Don't have an account?</p>
+          <Button
+            variant="link"
+            className="p-0 m-0 align-text-top"
+            onClick={handleNavigateRegister}
+          >
+            <p>Register</p>
+          </Button>
+        </Container>
       </div>
     </div>
   );
