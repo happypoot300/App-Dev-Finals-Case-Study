@@ -1,4 +1,3 @@
-// React
 import React, { useState } from "react";
 // CSS style
 import Style from "../css modules/LoginPage.module.css";
@@ -24,21 +23,30 @@ export default function LoginPage() {
     try {
       const response = await axios.post("/login", { email, password });
       const token = response.data.token;
+      const userRole = response.data.role; // Assuming the response contains the user's role
+
       // Store the token in local storage
       localStorage.setItem("token", token);
+
       setEmail("");
       setPassword("");
-      //need ng checker to see if admin ba yung acc or user lang
-      navigate("/ViewProductPage", {
-        state: { isUserAdmin: false },
-        replace: true,
-      });
+
+      // Navigate based on the user's role (Admin or User)
+      if (userRole === "admin") {
+        navigate("/AddProductPage", { replace: true }); // Redirect to Admin Page
+      } else {
+        navigate("/ViewProductPage", { replace: true }); // Redirect to User Product Page
+      }
     } catch (error) {
       console.log(error);
       setError("Invalid username or password");
     }
 
     setLoading(false); // Stop loading when done
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate("/register"); // Redirect to the Register Page
   };
 
   return (
@@ -81,12 +89,22 @@ export default function LoginPage() {
           </div>
           <button
             type="submit"
-            className="btn btn-primary"
+            className="btn btn-primary w-100"
             disabled={loading} // Disable button when loading
           >
             {loading ? "Logging In..." : "Log In"}
           </button>
         </form>
+        <div className="mt-3 text-center">
+          <p>Don't have an account?</p>
+          <button
+            type="button"
+            className="btn btn-secondary w-100"
+            onClick={handleRegisterRedirect}
+          >
+            Register
+          </button>
+        </div>
       </div>
     </div>
   );
