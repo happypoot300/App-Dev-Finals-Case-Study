@@ -30,7 +30,7 @@ export default function LoginPage() {
       setPassword("");
       //need ng checker to see if admin ba yung acc or user lang
       navigate("/ViewProductPage", {
-        state: { isUserAdmin: false },
+        state: { isUserAdmin: true },
         replace: true,
       });
     } catch (error) {
