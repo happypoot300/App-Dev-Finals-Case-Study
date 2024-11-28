@@ -1,6 +1,6 @@
 //react
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 //bootstrap
 import Button from "../components/Button.jsx";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -13,10 +13,15 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ProductList from "../components/ProductList.jsx";
 
 export default function ViewProductPage() {
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+
+  const [isUserAdmin, setIsUserAdmin] = useState();
+  const location = useLocation();
+  useEffect(() => {
+    setIsUserAdmin(location.state?.isUserAdmin);
+  }, [location]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/products")
@@ -34,7 +39,7 @@ export default function ViewProductPage() {
       <header>
         <div className={Style.header__Title}>
           <div className={Style.titleLayout}>
-            <h1>E-Com Product Management</h1>
+            <h1>E-Com Product Management Ver 2.0</h1>
             <div className={Style.header__imgIcon}></div>
           </div>
 
@@ -60,9 +65,9 @@ export default function ViewProductPage() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <h2>Product List</h2>
 
-        <ProductList isUserAdmin={false} />
+        {isUserAdmin ? <h2>Admin Dashboard</h2> : <h2>Product List</h2>}
+        <ProductList isUserAdmin={isUserAdmin} />
       </header>
     </section>
   );

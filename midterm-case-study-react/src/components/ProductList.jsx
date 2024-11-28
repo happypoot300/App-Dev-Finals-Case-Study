@@ -95,7 +95,10 @@ export default function ViewProductPage({ isUserAdmin }) {
   }
 
   function navigateToAddProductPage() {
-    navigate("/AddProductPage", { replace: true });
+    navigate("/AddProductPage", {
+      state: { isUserAdmin: isUserAdmin },
+      replace: true,
+    });
   }
 
   function navigateToViewCartPage() {

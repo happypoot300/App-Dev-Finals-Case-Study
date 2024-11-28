@@ -8,11 +8,12 @@ import EditProductPage from "./pages/AdminPages/EditProductPage";
 //UserPages
 import AddToCartPage from "./pages/UserPages/AddToCartPage";
 import CheckoutPage from "./pages/UserPages/CheckoutPage";
+import ProductDetailsPage from "./pages/UserPages/ProductDetailsPage";
 import ViewCartPage from "./pages/UserPages/ViewCartPage";
 //GlobalPages
-import ViewProductPage from "./pages/ViewProductPage";
 import LoginPage from "./pages/LoginPage";
-//components
+import RegisterPage from "./pages/RegisterPage";
+import ViewProductPage from "./pages/ViewProductPage";
 
 export default function App() {
   return (
@@ -23,13 +24,18 @@ export default function App() {
         <Route path="/EditProductPage/:id" element={<EditProductPage />} />
 
         {/*UserPages*/}
-        <Route path="/AddToCartPage" element={<AddToCartPage />} />
+        <Route path="/AddToCartPage/:id" element={<AddToCartPage />} />
         <Route path="/CheckoutPage" element={<CheckoutPage />} />
+        <Route
+          path="/ProductDetailsPage/:id"
+          element={<ProductDetailsPage />}
+        />
         <Route path="/ViewCartPage" element={<ViewCartPage />} />
 
         {/*GlobalPages*/}
-        <Route path="/ViewProductPage" element={<ViewProductPage />} />
         <Route path="/" element={<LoginPage />} />
+        <Route path="/RegisterPage" element={<RegisterPage />} />
+        <Route path="/ViewProductPage" element={<ViewProductPage />} />
       </Routes>
     </div>
   );

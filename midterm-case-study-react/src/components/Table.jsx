@@ -19,8 +19,9 @@ import {
   faCartPlus,
 } from "@fortawesome/free-solid-svg-icons";
 //react
+
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 //barcode
 import BarcodeGenerator from "./BarcodeGenerator";
 const frenchGray = "#d0d5db";
@@ -64,12 +65,19 @@ export default function ViewTable({
     navigate(`/ViewProductPage/${id}`, { replace: true });
   } */
 
-  function navigateToEditProductPage(id) {
-    navigate(`/EditProductPage/${id}`, { replace: true });
+  function navigateToEditProductPage(id, isUserAdmin) {
+    navigate(`/EditProductPage/${id}`, {
+      state: { isUserAdmin: isUserAdmin },
+      replace: true,
+    });
   }
 
   function navigateToAddToCartPage(id) {
     navigate(`/AddToCartPage/${id}`, { replace: true });
+  }
+
+  function navigateToProductDetailsPage(id) {
+    navigate(`/ProductDetailsPage/${id}`, { replace: true });
   }
 
   function HandleDeleteProduct(id) {
@@ -93,16 +101,8 @@ export default function ViewTable({
           <tr>
             {!isUserAdmin && (
               <th style={{ backgroundColor: frenchGray }}>
-                <Container className="d-flex align-items-center m-0 p-0">
+                <Container className="text-center m-0 p-0">
                   <label className="text-nowrap pb-2">View</label>
-                  <Container className="d-flex justify-content-end m-0 pb-2 ">
-                    <FontAwesomeIcon
-                      className={Style.filterIcon}
-                      icon={faEye}
-                      size="lg"
-                      style={{ color: "4470FE" }}
-                    />
-                  </Container>
                 </Container>
               </th>
             )}
@@ -278,12 +278,14 @@ export default function ViewTable({
             </th>
             <br />
 
-            <th style={{ backgroundColor: frenchGray }}>
-              <Container className="pb-2 m-0 ">
-                <label className="text-nowrap">Bar Code</label>
-              </Container>
-            </th>
-            <br />
+            {isUserAdmin && (
+              <th style={{ backgroundColor: frenchGray }}>
+                <Container className="pb-2 m-0 ">
+                  <label className="text-nowrap">Bar Code</label>
+                </Container>
+              </th>
+            )}
+            {isUserAdmin && <br />}
 
             <th style={{ backgroundColor: frenchGray }}>
               <div className={Style.filterContainer}>
@@ -336,8 +338,12 @@ export default function ViewTable({
             <br />
 
             <th style={{ backgroundColor: frenchGray }}>
-              <Container className="pb-2 m-0 ">
-                <label className="text-nowrap">Action</label>
+              <Container className="pb-2 m-0 text-center">
+                {isUserAdmin ? (
+                  <label className="text-nowrap ">Action</label>
+                ) : (
+                  <label className="text-nowrap">Add to Cart</label>
+                )}
               </Container>
             </th>
           </tr>
@@ -350,7 +356,15 @@ export default function ViewTable({
                   style={{ maxWidth: "250px" }}
                   className="text-truncate align-middle"
                 >
-                  VIEW BUTTON HERE
+                  <Container fluid className={Style.buttonContainer}>
+                    <Button
+                      variant="link"
+                      className={Style.viewButton}
+                      onClick={() => navigateToProductDetailsPage(product.id)}
+                    >
+                      <FontAwesomeIcon icon={faEye} size="2xl" />
+                    </Button>
+                  </Container>
                 </td>
               )}
               {!isUserAdmin && <br />}
@@ -379,10 +393,12 @@ export default function ViewTable({
               <br />
               <td className="text-truncate align-middle">{product.category}</td>
               <br />
-              <td className="text-truncate align-bottom text-center">
-                <BarcodeGenerator data={product.bar_code} />
-              </td>
-              <br />
+              {isUserAdmin && (
+                <td className="text-truncate align-bottom text-center">
+                  <BarcodeGenerator data={product.bar_code} />
+                </td>
+              )}
+              {isUserAdmin && <br />}
               <td
                 style={{ maxWidth: "100px" }}
                 className="text-truncate align-middle text-center"
@@ -406,7 +422,9 @@ export default function ViewTable({
                     <Button
                       variant="link"
                       className={Style.editButton}
-                      onClick={() => navigateToEditProductPage(product.id)}
+                      onClick={() =>
+                        navigateToEditProductPage(product.id, isUserAdmin)
+                      }
                     >
                       <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
                     </Button>

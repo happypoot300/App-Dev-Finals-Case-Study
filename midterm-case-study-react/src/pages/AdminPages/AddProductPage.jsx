@@ -1,9 +1,10 @@
 //react
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //react dom
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 //bootstrap
 import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 //css style
 import Style from "../../css modules/AddProductPage.module.css";
 //fontawesome
@@ -14,11 +15,19 @@ import ProductForm from "../../components/ProductForm.jsx";
 
 export default function AddProductPage() {
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
+  const [isUserAdmin, setIsUserAdmin] = useState();
+  const location = useLocation();
+  useEffect(() => {
+    setIsUserAdmin(location.state?.isUserAdmin);
+  }, [location]);
+
   function navigateToHome() {
-    navigate("/ViewProductPage", { replace: true });
+    navigate("/ViewProductPage", {
+      state: { isUserAdmin: isUserAdmin },
+      replace: true,
+    });
   }
 
   function handleAddProduct(parameterForm) {
@@ -52,9 +61,10 @@ export default function AddProductPage() {
       <div className={Style.addProductContainer}>
         <Container className="d-flex justify-content-between">
           <h2>Add New Product</h2>
-          <Link to="/viewProductPage">
+
+          <Button variant="link" onClick={navigateToHome}>
             <FontAwesomeIcon className="pt-2" icon={faChevronLeft} size="2xl" />
-          </Link>
+          </Button>
         </Container>
 
         {error && (
