@@ -36,7 +36,7 @@ export default function ViewTable({
   sortProductsOrder,
   sortProductsCategory,
 }) {
-  const [books, setBooks] = useState([]);
+  const [formData, setFormData] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ export default function ViewTable({
           );
         }
       })
-      .then((books) => setBooks(books))
+      .then((formData) => setFormData(formData))
       .catch((error) => {
         setError(error.message);
         console.log(error);
@@ -73,7 +73,9 @@ export default function ViewTable({
   }
 
   function navigateToAddToCartPage(id) {
-    navigate(`/AddToCartPage/${id}`, { replace: true });
+    navigate(`/AddToCartPage/${id}`, {
+      replace: true,
+    });
   }
 
   function navigateToProductDetailsPage(id) {

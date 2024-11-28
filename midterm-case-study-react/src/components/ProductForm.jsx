@@ -57,13 +57,6 @@ export default function ProductForm({
   }
 
   const navigate = useNavigate();
-  function navigateToAddToCartPage(id) {
-    navigate(`/AddToCartPage/${id}`, {
-      state: { formData },
-      replace: true,
-    });
-  }
-
   function navigateToCheckoutPage() {
     navigate("/CheckoutPage", { replace: true });
   }
@@ -161,19 +154,6 @@ export default function ProductForm({
                 </Form.Group>
               </Col>
             </Row>
-            <Container fluid className="d-flex justify-content-end">
-              <Button
-                className={Style.BuyNowButton}
-                name="Buy Now"
-                onClick={navigateToCheckoutPage}
-              ></Button>
-
-              <Button
-                className={Style.AddToCartButton}
-                name="+ Add to Cart"
-                onClick={() => navigateToAddToCartPage(id)}
-              ></Button>
-            </Container>
           </Container>
         </Form>
       ) : (
