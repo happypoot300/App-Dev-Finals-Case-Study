@@ -10,6 +10,7 @@ import Style from "../../css modules/AddProductPage.module.css";
 //fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 //components
 import CartForm from "../../components/CartForm.jsx";
 
@@ -18,21 +19,33 @@ export default function AddToCartPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  /*   function navigateToHome() {
-    navigate(`/ViewProductPage/${id}`, {
-      state: { isUserAdmin: isUserAdmin },
-      replace: true,
-    });
-  } */
-
   const [formData, setFormData] = useState();
-  const location = useLocation();
-  useEffect(() => {
-    setFormData(location.state?.formData);
-  }, [location]);
 
-  function navigateToProductDetailsPage() {
-    navigate(`/ProductDetailsPage/${id}`, {
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/products/${id}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(
+            response.statusText +
+              " " +
+              response.status +
+              " The server has not found anything matching the Request-URI"
+          );
+        }
+      })
+      .then((formData) => setFormData(formData))
+      .catch((error) => {
+        setError(error.message);
+        console.log(error);
+      });
+  }, []);
+
+  console.table(formData);
+
+  function navigateToLastPage() {
+    navigate("/ViewProductPage", {
       replace: true,
     });
   }
@@ -69,8 +82,8 @@ export default function AddToCartPage() {
         <Container className="d-flex justify-content-between">
           <h2>Adding to Cart</h2>
 
-          <Button variant="link" onClick={navigateToProductDetailsPage}>
-            <FontAwesomeIcon className="pt-2" icon={faChevronLeft} size="2xl" />
+          <Button variant="link" onClick={navigateToLastPage}>
+            <FontAwesomeIcon icon={faCircleXmark} size="2xl" />
           </Button>
         </Container>
 
