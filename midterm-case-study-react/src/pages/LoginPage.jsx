@@ -28,9 +28,6 @@ export default function LoginPage() {
       const response = await axios.post("/login", { email, password });
       const token = response.data.token;
 
-      console.log("userROLE: ", response.data.role);
-      console.log("userROLE: ", response.data.role === "admin");
-
       // Store the token in local storage
       localStorage.setItem("token", token);
       setEmail("");

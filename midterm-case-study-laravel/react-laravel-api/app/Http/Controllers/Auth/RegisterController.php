@@ -4,9 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Laravel\Pail\ValueObjects\Origin\Console;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+use function Symfony\Component\String\b;
 
 class RegisterController extends Controller
 {
@@ -61,12 +68,89 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    /*     public function apiRegister(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        /*         $validator = Validator::make($request->all()); */
+
+    /*         if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        } */
+
+    /*
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt($request->input('password'));
+        $user->role = 'user';
+
+        $user->save();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json(['token' => $token]);
+    } 
+    */
+
+    /*     public function apiRegister(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->role = 'user';
+
+            $user->save();
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json(['token' => $token]);
+        } catch (\Exception $e) {
+            // Log the error and return a 500 error response
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    } */
+
+
+    public function apiRegister(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'contact_number' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'min:5'],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->contact_number = $request->input('contact_number');
+            $user->password = Hash::make($request->input('password'));
+            $user->role = 'user';
+
+            $user->save();
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json(['token' => $token]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }
