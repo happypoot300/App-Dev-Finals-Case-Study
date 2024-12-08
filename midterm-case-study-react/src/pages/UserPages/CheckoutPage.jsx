@@ -1,6 +1,7 @@
-
+// React
 import React, { useState } from "react";
-import styles from "../../css modules/CheckoutPage.module.css"; 
+// CSS
+import styles from "../../css modules/CheckoutPage.module.css";
 
 const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
   const [shippingDetails, setShippingDetails] = useState({
@@ -42,7 +43,8 @@ const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
   };
 
   const handleConfirmOrder = () => {
-    const { name, street, city, province, zipCode, contactNumber } = shippingDetails;
+    const { name, street, city, province, zipCode, contactNumber } =
+      shippingDetails;
 
     if (!name || !street || !city || !province || !zipCode || !contactNumber) {
       alert("Please fill in all shipping details.");
@@ -78,7 +80,6 @@ const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
           />
         </div>
 
-        
         <div className={styles.inputGroup}>
           <label>Address:</label>
           <div className={styles.addressFields}>
@@ -120,7 +121,9 @@ const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
                 name="zipCode"
                 value={shippingDetails.zipCode}
                 onChange={handleInputChange}
-                className={`${styles.inputField} ${zipCodeError ? styles.error : ""}`}
+                className={`${styles.inputField} ${
+                  zipCodeError ? styles.error : ""
+                }`}
               />
               {zipCodeError && (
                 <p className={styles.errorText}>{zipCodeError}</p>
@@ -137,11 +140,11 @@ const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
             name="contactNumber"
             value={shippingDetails.contactNumber}
             onChange={handleInputChange}
-            className={`${styles.inputField} ${contactError ? styles.error : ""}`}
+            className={`${styles.inputField} ${
+              contactError ? styles.error : ""
+            }`}
           />
-          {contactError && (
-            <p className={styles.errorText}>{contactError}</p>
-          )}
+          {contactError && <p className={styles.errorText}>{contactError}</p>}
         </div>
 
         {/* payment method */}
@@ -207,10 +210,7 @@ const CheckoutPage = ({ cartItems = [], onConfirmOrder }) => {
         </div>
       )}
       {showReceipt && (
-        <div
-          className={styles.overlay}
-          onClick={() => setShowReceipt(false)}
-        />
+        <div className={styles.overlay} onClick={() => setShowReceipt(false)} />
       )}
     </div>
   );

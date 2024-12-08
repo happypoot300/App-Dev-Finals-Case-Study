@@ -5,6 +5,7 @@ import Button from "../components/Button.jsx";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Container from "react-bootstrap/Container";
+import Badge from "react-bootstrap/Badge";
 //css style
 import Style from "../css modules/ViewProductPage.module.css";
 //components
@@ -16,7 +17,7 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function ViewProductPage({ isUserAdmin }) {
+export default function ProductList({ isUserAdmin, userId }) {
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -29,6 +30,28 @@ export default function ViewProductPage({ isUserAdmin }) {
       .then((products) => setProducts(products))
       .catch((error) => console.error("Error fetching data", error));
   }, []);
+
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/carts/${userId}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(
+            response.statusText +
+              " " +
+              response.status +
+              " The server has not found anything matching the Request-URI"
+          );
+        }
+      })
+      .then((data) => setCart(data))
+      .catch((error) => {
+        setError(error.message);
+        console.log(error);
+      });
+  }, [userId]);
 
   function updateProductsList() {
     fetch("http://127.0.0.1:8000/api/products")
@@ -101,8 +124,12 @@ export default function ViewProductPage({ isUserAdmin }) {
     });
   }
 
-  function navigateToViewCartPage() {
-    navigate("/ViewCartPage", { replace: true });
+  function navigateToViewCartPage(userId) {
+    console.log("userId from ProductList: ", userId);
+    navigate(`/ViewCartPage/${userId}`, {
+      state: { userId: userId },
+      replace: true,
+    });
   }
 
   return (
@@ -116,14 +143,15 @@ export default function ViewProductPage({ isUserAdmin }) {
                 "+ Add Product"
               ) : (
                 <span>
-                  <FontAwesomeIcon icon={faCartPlus} size="sm" /> View Cart
+                  <FontAwesomeIcon icon={faCartPlus} size="sm" />
+                  View Cart <Badge bg="danger">{cart.length}</Badge>
                 </span>
               )
             }
             onClick={
               isUserAdmin
                 ? () => navigateToAddProductPage()
-                : () => navigateToViewCartPage()
+                : () => navigateToViewCartPage(userId)
             }
           ></Button>
           <div className={Style.searchContainer}>
@@ -151,6 +179,7 @@ export default function ViewProductPage({ isUserAdmin }) {
         </div>
         <Table
           isUserAdmin={isUserAdmin}
+          userId={userId}
           products={searchResults.length > 0 ? searchResults : products}
           updateProductsList={updateProductsList}
           sortProductsOrder={sortProductsOrder}

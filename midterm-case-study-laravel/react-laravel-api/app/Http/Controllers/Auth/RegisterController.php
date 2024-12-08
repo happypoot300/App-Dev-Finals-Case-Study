@@ -68,60 +68,6 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    /*     public function apiRegister(Request $request)
-    {
-        /*         $validator = Validator::make($request->all()); */
-
-    /*         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        } */
-
-    /*
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-        $user->role = 'user';
-
-        $user->save();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['token' => $token]);
-    } 
-    */
-
-    /*     public function apiRegister(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string'],
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);
-            }
-
-            $user = new User();
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->role = 'user';
-
-            $user->save();
-
-            $token = $user->createToken('auth_token')->plainTextToken;
-
-            return response()->json(['token' => $token]);
-        } catch (\Exception $e) {
-            // Log the error and return a 500 error response
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
-    } */
-
 
     public function apiRegister(Request $request)
     {
@@ -129,8 +75,8 @@ class RegisterController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'contact_number' => ['required', 'string', 'max:255'],
-                'password' => ['required', 'string', 'min:5'],
+                'contact' => ['required', 'string', 'max:255'],
+                'password' => ['required', 'string', 'min:4'],
             ]);
 
             if ($validator->fails()) {
@@ -140,7 +86,7 @@ class RegisterController extends Controller
             $user = new User();
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->contact_number = $request->input('contact_number');
+            $user->contact = $request->input('contact');
             $user->password = Hash::make($request->input('password'));
             $user->role = 'user';
 

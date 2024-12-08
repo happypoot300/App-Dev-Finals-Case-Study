@@ -18,10 +18,18 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+
+    public function carts()
+    {
+        return $this->hasMany(CartList::class, 'user_id', 'id');
+    }
+
     protected $fillable = [
         'name',
         'email',
-        'contact_number',
+        'contact',
         'password',
         'role',
     ];
@@ -45,7 +53,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'contact_number' => 'string',
+            'contact' => 'string',
             'password' => 'hashed',
             'role' => 'string',
         ];

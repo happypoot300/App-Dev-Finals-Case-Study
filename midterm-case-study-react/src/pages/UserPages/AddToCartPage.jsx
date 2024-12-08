@@ -1,7 +1,7 @@
 //react
 import { useState, useEffect } from "react";
 //react dom
-import { useNavigate, Link, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 //bootstrap
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -9,7 +9,6 @@ import Button from "react-bootstrap/Button";
 import Style from "../../css modules/AddProductPage.module.css";
 //fontawesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 //components
 import CartForm from "../../components/CartForm.jsx";
@@ -18,8 +17,13 @@ export default function AddToCartPage() {
   const [error, setError] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
+  const [formData, setFormData] = useState([]);
 
-  const [formData, setFormData] = useState();
+  const [userId, setUserId] = useState();
+  const location = useLocation();
+  useEffect(() => {
+    setUserId(location.state?.userId);
+  }, [location]);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/products/${id}`)
@@ -35,23 +39,24 @@ export default function AddToCartPage() {
           );
         }
       })
-      .then((formData) => setFormData(formData))
+      .then((products) => setFormData(products))
       .catch((error) => {
         setError(error.message);
         console.log(error);
       });
   }, []);
 
-  console.table(formData);
-
   function navigateToLastPage() {
     navigate("/ViewProductPage", {
+      state: { userId: userId },
       replace: true,
     });
   }
 
-  function handleAddProduct(parameterForm) {
-    fetch("http://127.0.0.1:8000/api/products", {
+  function handleAddToCart(parameterForm) {
+    console.log("parameterForm: ", parameterForm);
+    console.log("Iwas CALLED");
+    fetch("http://127.0.0.1:8000/api/carts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +65,7 @@ export default function AddToCartPage() {
     })
       .then((response) => {
         if (response.ok) {
-          /*           navigateToHome(); */
+          navigateToLastPage();
         } else {
           throw new Error(
             response.statusText +
@@ -89,11 +94,16 @@ export default function AddToCartPage() {
 
         {error && (
           <div class="px-8 py-6 bg-red-400 text-white flex justify-between rounded">
-            ERROR TEST PALANG
+            <p>{error}</p>
           </div>
         )}
 
-        <CartForm formData={formData} />
+        <CartForm
+          formData={formData}
+          handleAddToCart={handleAddToCart}
+          id={id}
+          userId={userId}
+        />
       </div>
     </Container>
   );
