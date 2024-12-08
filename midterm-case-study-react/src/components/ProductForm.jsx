@@ -11,7 +11,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useNavigate, useLocation } from "react-router-dom";
 //css
 import Style from "../css modules/ProductForm.module.css";
-
+// Template Image
 import Image from "react-bootstrap/Image";
 import placeholderImage from "../images/placeholder_Image.jpg";
 
@@ -20,8 +20,6 @@ export default function ProductForm({
   formData,
   handleAddProduct,
   handleEditProduct,
-  handleAddToCart,
-  handleCheckout,
   isViewOnly,
   error,
 }) {
@@ -57,10 +55,6 @@ export default function ProductForm({
   }
 
   const navigate = useNavigate();
-  function navigateToCheckoutPage() {
-    navigate("/CheckoutPage", { replace: true });
-  }
-
   return (
     <>
       {isViewOnly ? (
@@ -251,9 +245,11 @@ export default function ProductForm({
             />
           </Form.Group>
           <div>
-            <Button className={Style.SubmitButton} type="submit">
-              Submit
-            </Button>
+            <Button
+              className={Style.SubmitButton}
+              type="submit"
+              name="Submit"
+            ></Button>
           </div>
         </Form>
       )}

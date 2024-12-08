@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\User;
+use Laravel\Pail\ValueObjects\Origin\Console;
+use Laravel\Prompts\Table;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {

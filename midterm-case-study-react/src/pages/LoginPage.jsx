@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// React
+import React, { useState, useEffect } from "react";
 // CSS style
 import Style from "../css modules/LoginPage.module.css";
 // React router dom
@@ -16,33 +17,57 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false); // To disable button during login attempt
   const navigate = useNavigate();
 
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/users")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(
+            response.statusText +
+              " " +
+              response.status +
+              " The server has not found anything matching the Request-URI"
+          );
+        }
+      })
+      .then((data) => setUsers(data))
+      .catch((error) => {
+        setError(error.message);
+        console.log(error);
+      });
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Reset error message on every attempt
     setError("");
     setLoading(true);
-
     try {
-      const response = await axios.post("/login", { email, password });
-      const token = response.data.token;
-
-      // Store the token in local storage
-      localStorage.setItem("token", token);
-
-      setEmail("");
-      setPassword("");
-      //need ng checker to see if admin ba yung acc or user lang
-      navigate("/ViewProductPage", {
-        state: { isUserAdmin: response.data.role === "admin" },
-        replace: true,
-      });
+      const user = users.find((user) => user.email === email);
+      if (user) {
+        // User exists, get the user ID
+        const userId = user.id;
+        const response = await axios.post("/login", { email, password });
+        console.table("userId got from the email: ", userId);
+        setEmail("");
+        setPassword("");
+        navigate("/ViewProductPage", {
+          state: {
+            isUserAdmin: response.data.role === "admin",
+            userId: user.id,
+          },
+          replace: true,
+        });
+      } else {
+        // User does not exist, display error message
+        setError("Email does not exist");
+      }
     } catch (error) {
       console.log(error);
       setError("Invalid username or password");
     }
-
-    setLoading(false); // Stop loading when done
+    setLoading(false);
   };
 
   function handleNavigateRegister() {

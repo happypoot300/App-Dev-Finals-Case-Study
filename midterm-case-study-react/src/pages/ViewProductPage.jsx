@@ -13,14 +13,15 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import ProductList from "../components/ProductList.jsx";
 
 export default function ViewProductPage() {
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
 
   const [isUserAdmin, setIsUserAdmin] = useState();
+  const [userId, setUserId] = useState();
   const location = useLocation();
   useEffect(() => {
     setIsUserAdmin(location.state?.isUserAdmin);
+    setUserId(location.state?.userId);
   }, [location]);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function ViewProductPage() {
         </div>
 
         {isUserAdmin ? <h2>Admin Dashboard</h2> : <h2>Product List</h2>}
-        <ProductList isUserAdmin={isUserAdmin} />
+        <ProductList isUserAdmin={isUserAdmin} userId={userId} />
       </header>
     </section>
   );

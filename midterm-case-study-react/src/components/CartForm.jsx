@@ -4,62 +4,36 @@ import React, { useState, useEffect } from "react";
 import Button from "../components/Button.jsx";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-//router
-import { useNavigate } from "react-router-dom";
 //css
 import Style from "../css modules/ProductForm.module.css";
 
 export default function CartForm({
   formData,
-  handleAddProduct,
-  handleEditProduct,
   handleAddToCart,
-  handleCheckout,
-  isViewOnly,
+  id,
+  userId,
   error,
 }) {
-  const productState =
-    formData == undefined
-      ? {
-          product_name: "",
-          price: "",
-          description: "",
-          category: "",
-          bar_code: "",
-          stock_quantity: "",
-        }
-      : { ...formData };
-
-  const [product, setProduct] = useState(productState);
+  const [cart, setCart] = useState({});
 
   useEffect(() => {
-    setProduct(productState);
-  }, [formData]);
+    const cartState = {
+      user_id: userId,
+      product_id: id,
+      quantity: 1,
+    };
+    console.log("cartState from CartFrom: ", cartState);
+    setCart(cartState);
+  }, [userId, id]);
+  console.table("cart from CartFrom: ", cart);
 
-  function onChangeProduct(column, value) {
-    setProduct({ ...product, [column]: value });
+  function onChangeQuantity(column, value) {
+    setCart({ ...cart, [column]: value });
   }
-
-  /*   function handleAddSubmit(event) {
-    event.preventDefault();
-    handleAddProduct(product);
-  }
-  function handleEditSubmit(event) {
-    event.preventDefault();
-    handleEditProduct(product);
-  } */
 
   function handleCartSubmit(event) {
     event.preventDefault();
-  }
-
-  const navigate = useNavigate();
-  function navigateToAddToCartPage() {
-    navigate("/AddToCartPage", { replace: true });
-  }
-
-  function navigateToCheckoutPage() {
-    navigate("/CheckoutPage", { replace: true });
+    handleAddToCart(cart);
   }
 
   return (
@@ -69,8 +43,8 @@ export default function CartForm({
         <Form.Control
           type="text"
           name="product_name"
-          value={product.product_name}
-          readOnly={isViewOnly}
+          value={formData.product_name}
+          readOnly={true}
           required
         />
       </Form.Group>
@@ -81,9 +55,8 @@ export default function CartForm({
           type="number"
           name="quantity"
           onChange={(e) => {
-            onChangeProduct("price", e.target.value);
+            onChangeQuantity("quantity", e.target.value);
           }}
-          readOnly={isViewOnly}
           defaultValue={1}
           min="1"
           required
@@ -91,7 +64,11 @@ export default function CartForm({
       </Form.Group>
 
       <Container className="d-flex justify-content-end">
-        <Button className={Style.AddToCartButton} name="+ Add to Cart">
+        <Button
+          type="submit"
+          className={Style.AddToCartButton}
+          name="+ Add to Cart"
+        >
           + Add to Cart
         </Button>
       </Container>

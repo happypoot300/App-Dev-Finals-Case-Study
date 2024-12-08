@@ -19,9 +19,8 @@ import {
   faCartPlus,
 } from "@fortawesome/free-solid-svg-icons";
 //react
-
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //barcode
 import BarcodeGenerator from "./BarcodeGenerator";
 const frenchGray = "#d0d5db";
@@ -31,6 +30,7 @@ const pesoSign = {
 
 export default function ViewTable({
   isUserAdmin,
+  userId,
   products,
   updateProductsList,
   sortProductsOrder,
@@ -61,10 +61,6 @@ export default function ViewTable({
       });
   }, []);
 
-  /*   function navigateToViewProductPage(id) {
-    navigate(`/ViewProductPage/${id}`, { replace: true });
-  } */
-
   function navigateToEditProductPage(id, isUserAdmin) {
     navigate(`/EditProductPage/${id}`, {
       state: { isUserAdmin: isUserAdmin },
@@ -74,6 +70,7 @@ export default function ViewTable({
 
   function navigateToAddToCartPage(id) {
     navigate(`/AddToCartPage/${id}`, {
+      state: { userId: userId, id: id },
       replace: true,
     });
   }

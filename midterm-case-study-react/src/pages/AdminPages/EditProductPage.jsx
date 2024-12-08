@@ -90,7 +90,7 @@ export default function EditProductPage() {
 
         {error && (
           <div class="px-8 py-6 bg-red-400 text-white flex justify-between rounded">
-            ERROR TEST PALANG
+            <p>{error}</p>
           </div>
         )}
 

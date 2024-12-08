@@ -30,7 +30,7 @@ export default function App() {
           path="/ProductDetailsPage/:id"
           element={<ProductDetailsPage />}
         />
-        <Route path="/ViewCartPage" element={<ViewCartPage />} />
+        <Route path="/ViewCartPage/:id" element={<ViewCartPage />} />
 
         {/*GlobalPages*/}
         <Route path="/" element={<LoginPage />} />
